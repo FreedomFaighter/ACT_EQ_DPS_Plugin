@@ -977,16 +977,17 @@ namespace EverQuestDPSPlugin
 
         private double AttackTypeGetVariance(AttackType Data)
         {   List<MasterSwing> ms = Data.Items.Where((item) => item.Damage.Number >= 0).ToList();
+            double average = ms.Select((item) => item.Damage.Number).Average();
             if (!populationVariance && Data.Items.Count > 1)
                 return ms.Sum((item) =>
                 {
-                    return Math.Pow(ms.Select((item) => item.Damage.Number).Average() - item.Damage.Number, 2.0) / (ms.Count - 1);
-                });
+                    return Math.Pow(average - item.Damage.Number, 2.0);
+                }) / (ms.Count - 1);
             else if (populationVariance && Data.Items.Count > 0)
                 return ms.Sum((item) =>
                 {
-                    return Math.Pow(ms.Select((item) => item.Damage.Number).Average() - item.Damage.Number, 2.0) / ms.Count;
-                });
+                    return Math.Pow(average  - item.Damage.Number, 2.0);
+                }) / ms.Count;
             else
                 return default;
         }
