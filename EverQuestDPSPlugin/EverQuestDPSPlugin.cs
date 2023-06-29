@@ -1100,7 +1100,7 @@ namespace EverQuestDPSPlugin
         //Variance calculation for attack damage
         private double AttackTypeGetVariance(AttackType Data)
         {
-            List<MasterSwing> ms = Data.Items.Where((item) => item.Damage.Number >= 0).ToList();
+            List<MasterSwing> ms = Data.Items.ToList().Where((item) => item.Damage.Number >= 0).ToList();
             double average;
             lock (varianceChkBxLockObject)
             {
